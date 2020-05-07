@@ -1,0 +1,8 @@
+libdir=/usr/local/lib
+includedir=/usr/local/include
+
+Name: dlib
+Description: Numerical and networking C++ library
+Version: 19.19.99
+Libs: -L${libdir} -ldlib -lpthread
+Cflags: -I${includedir} 
