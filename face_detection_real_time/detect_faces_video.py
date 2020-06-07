@@ -71,6 +71,7 @@ while True:
   # if the `q` key was pressed, break from the loop
   if key == ord("q"):
     break
+
 # do a bit of cleanup
 cv2.destroyAllWindows()
 vs.stop()
