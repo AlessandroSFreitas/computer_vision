@@ -1,2 +1,3 @@
 covid_mask_detection/dataset/*
 drone_ai/scripts/dataset/*
+/.vscode

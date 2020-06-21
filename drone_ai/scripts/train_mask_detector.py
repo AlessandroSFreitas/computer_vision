@@ -70,8 +70,7 @@ labels = to_categorical(labels)
 
 # partition the data into training and testing splits using 75% of
 # the data for training and the remaining 25% for testing
-(trainX, testX, trainY, testY) = train_test_split(data, labels,
-  test_size=0.20, stratify=labels, random_state=42)
+(trainX, testX, trainY, testY) = train_test_split(data, labels, test_size=0.20, stratify=labels, random_state=42)
 
 # construct the training image generator for data augmentation
 aug = ImageDataGenerator(
@@ -109,8 +108,7 @@ for layer in baseModel.layers:
 # compile our model
 print("[INFO] compiling model...")
 opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
-model.compile(loss="binary_crossentropy", optimizer=opt,
-  metrics=["accuracy"])
+model.compile(loss="binary_crossentropy", optimizer=opt, metrics=["accuracy"])
 
 # train the head of the network
 print("[INFO] training head...")
@@ -130,8 +128,7 @@ predIdxs = model.predict(testX, batch_size=BS)
 predIdxs = np.argmax(predIdxs, axis=1)
 
 # show a nicely formatted classification report
-print(classification_report(testY.argmax(axis=1), predIdxs,
-  target_names=lb.classes_))
+print(classification_report(testY.argmax(axis=1), predIdxs, target_names=lb.classes_))
 
 # serialize the model to disk
 print("[INFO] saving mask detector model...")
