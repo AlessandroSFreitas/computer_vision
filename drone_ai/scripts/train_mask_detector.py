@@ -24,12 +24,12 @@ import os
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-d", "--dataset", required=True,
-  help="path to input dataset")
+                help="path to input dataset")
 ap.add_argument("-p", "--plot", type=str, default="plot.png",
-  help="path to output loss/accuracy plot")
+                help="path to output loss/accuracy plot")
 ap.add_argument("-m", "--model", type=str,
-  default="mask_detector.model",
-  help="path to output face mask detector model")
+                default="mask_detector.model",
+                help="path to output face mask detector model")
 args = vars(ap.parse_args())
 
 # initialize the initial learning rate, number of epochs to train for,
@@ -47,17 +47,17 @@ labels = []
 
 # loop over the image paths
 for imagePath in imagePaths:
-  # extract the class label from the filename
-  label = imagePath.split(os.path.sep)[-2]
+    # extract the class label from the filename
+    label = imagePath.split(os.path.sep)[-2]
 
-  # load the input image (224x224) and preprocess it
-  image = load_img(imagePath, target_size=(224, 224))
-  image = img_to_array(image)
-  image = preprocess_input(image)
+    # load the input image (224x224) and preprocess it
+    image = load_img(imagePath, target_size=(224, 224))
+    image = img_to_array(image)
+    image = preprocess_input(image)
 
-  # update the data and labels lists, respectively
-  data.append(image)
-  labels.append(label)
+    # update the data and labels lists, respectively
+    data.append(image)
+    labels.append(label)
 
 # convert the data and labels to NumPy arrays
 data = np.array(data, dtype="float32")
@@ -74,18 +74,18 @@ labels = to_categorical(labels)
 
 # construct the training image generator for data augmentation
 aug = ImageDataGenerator(
-  rotation_range=20,
-  zoom_range=0.15,
-  width_shift_range=0.2,
-  height_shift_range=0.2,
-  shear_range=0.15,
-  horizontal_flip=True,
-  fill_mode="nearest")
+    rotation_range=20,
+    zoom_range=0.15,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.15,
+    horizontal_flip=True,
+    fill_mode="nearest")
 
 # load the MobileNetV2 network, ensuring the head FC layer sets are
 # left off
 baseModel = MobileNetV2(weights="imagenet", include_top=False,
-  input_tensor=Input(shape=(224, 224, 3)))
+                        input_tensor=Input(shape=(224, 224, 3)))
 
 # construct the head of the model that will be placed on top of the
 # the base model
@@ -103,7 +103,7 @@ model = Model(inputs=baseModel.input, outputs=headModel)
 # loop over all layers in the base model and freeze them so they will
 # *not* be updated during the first training process
 for layer in baseModel.layers:
-  layer.trainable = False
+    layer.trainable = False
 
 # compile our model
 print("[INFO] compiling model...")
@@ -113,11 +113,11 @@ model.compile(loss="binary_crossentropy", optimizer=opt, metrics=["accuracy"])
 # train the head of the network
 print("[INFO] training head...")
 H = model.fit(
-  aug.flow(trainX, trainY, batch_size=BS),
-  steps_per_epoch=len(trainX) // BS,
-  validation_data=(testX, testY),
-  validation_steps=len(testX) // BS,
-  epochs=EPOCHS)
+    aug.flow(trainX, trainY, batch_size=BS),
+    steps_per_epoch=len(trainX) // BS,
+    validation_data=(testX, testY),
+    validation_steps=len(testX) // BS,
+    epochs=EPOCHS)
 
 # make predictions on the testing set
 print("[INFO] evaluating network...")

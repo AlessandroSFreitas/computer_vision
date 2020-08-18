@@ -35,4 +35,9 @@ possiveis causas de risco;
 
 Para realizar o mapeamento da ocorrencia e de pessoas, vamos usar o OpenCV
 
+- Aprendizado supervisionado: é quando sabemos de algo e mostramos esse algo
+para a IA e ensinamos ela;
+
+- Aprendizado de reforço: (Deep Learning)
+
 
